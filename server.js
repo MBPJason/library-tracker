@@ -7,6 +7,11 @@ const PORT = process.env.PORT || 3001;
 
 const app = express();
 
+const AuthController = require("./controllers/authController");
+const BookController = require("./controllers/bookController");
+const AuthorController = require("./controllers/authorController");
+const UserController = require("./controllers/userController");
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -35,9 +40,14 @@ app.get("/api/config", (req, res) => {
   });
 });
 
+app.use(AuthController);
+app.use("/api/books", BookController);
+app.use("/api/authors", AuthorController);
+app.use("/api/user", UserController);
+
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "./client/build/index.html"));
-  });
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+});
 
 app.listen(PORT, () => {
   console.log(`App is running on http://localhost:${PORT}`);
