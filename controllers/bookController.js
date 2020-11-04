@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
   // If token, decode it.
   // If valid token, find books.
   // Else 401
-//   console.log(req.headers);
+  //   console.log(req.headers);
   //   if (!req.headers.authorization) {
   //     return res.status(401).json({
   //       error: true,
@@ -45,13 +45,15 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  db.Book.find({ _id: req.params.id }).then((foundBook) => {
-    res.json(foundBook);
-  });
+  db.Book.findOne({ _id: req.params.id })
+    .populate("author")
+    .then((foundBook) => {
+      res.json(foundBook);
+    });
 });
 
 router.post("/", (req, res) => {
-  console.log(req.headers);
+  //   console.log(req.headers);
   //   if (!req.headers.authorization) {
   //     return res.status(401).json({
   //       error: true,
