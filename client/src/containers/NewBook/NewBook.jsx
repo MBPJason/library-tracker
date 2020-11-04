@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 const NewBook = () => {
   const [title, setTitle] = useState("");
   const [pages, setPages] = useState("");
   const [authors, setAuthors] = useState([]);
   const [selectedAuthor, setSelectedAuthor] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const history = useHistory();
   //   const [state, setState] = useState({
   //       title: "",
@@ -21,6 +26,24 @@ const NewBook = () => {
   //       })
   //   }
   useEffect(() => {
+    getAuthorsForDropdown();
+  }, []);
+
+  const createAuthor = (e) => {
+    e.preventDefault();
+    axios
+      .post("/api/authors", { firstName, lastName })
+      .then((response) => {
+        console.log(response.data);
+        toggleModal();
+        getAuthorsForDropdown();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getAuthorsForDropdown = () => {
     axios
       .get("/api/authors")
       .then((response) => {
@@ -29,7 +52,7 @@ const NewBook = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -43,6 +66,11 @@ const NewBook = () => {
         console.log(err);
       });
   };
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -91,7 +119,11 @@ const NewBook = () => {
                   </option>
                 ))}
               </select>
-              <button className="btn btn-link">
+              <button
+                className="btn btn-link"
+                onClick={toggleModal}
+                type="button"
+              >
                 Don't see your author? Add them here.
               </button>
             </div>
@@ -103,6 +135,49 @@ const NewBook = () => {
           </form>
         </div>
       </div>
+      <Modal show={showModal} onHide={toggleModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add New Author</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form>
+            <div className="form-group">
+              <label htmlFor="pages">First Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="pages"
+                name="firstName"
+                value={firstName}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="pages">Last Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="pages"
+                name="lastName"
+                value={lastName}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                }}
+              />
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={toggleModal}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={createAuthor}>
+            Create Author
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
