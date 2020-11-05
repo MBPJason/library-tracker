@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import AlertContext from "../../context/AlertContext";
 import PropTypes from "prop-types";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
@@ -9,6 +10,8 @@ const NewBookModal = ({ showModal, toggleModal, setAuthors }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
+  const { setAlert } = useContext(AlertContext);
+
   const createAuthor = (e) => {
     e.preventDefault();
     axios
@@ -17,9 +20,17 @@ const NewBookModal = ({ showModal, toggleModal, setAuthors }) => {
         console.log(response.data);
         toggleModal();
         getAuthorsForDropdown();
+        setAlert({
+          message: "Successfully created new author",
+          type: "success",
+        });
       })
       .catch((err) => {
         console.log(err);
+        setAlert({
+            message: "Failed to create new author",
+            type: "danger",
+          });
       });
   };
   const getAuthorsForDropdown = () => {
