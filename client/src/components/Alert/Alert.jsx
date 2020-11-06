@@ -8,7 +8,7 @@ const Alert = () => {
       if (message.length) {
         setTimeout(() => {
           setAlert({ message: "", type: "" });
-        }, 1500);
+        }, 2000);
       }
     }, [message]);
 

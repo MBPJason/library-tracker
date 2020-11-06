@@ -26,6 +26,10 @@ const NewBook = () => {
       })
       .catch((err) => {
         console.log(err);
+        setAlert({
+          message: "An error occurred creating your book.",
+          type: "danger",
+        });
       });
   };
 
