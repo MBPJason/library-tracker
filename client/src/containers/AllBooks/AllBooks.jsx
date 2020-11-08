@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import AlertContext from "../../context/AlertContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
 const AllBooks = () => {
   const [books, setBooks] = useState([]);
+  const { setAlert } = useContext(AlertContext);
 
   useEffect(() => {
-    axios.get("/api/books").then((response) => {
-      console.log(response.data);
-      setBooks(response.data);
-    });
+    axios
+      .get("/api/books")
+      .then((response) => {
+        console.log(response.data);
+        setBooks(response.data);
+      })
+      .catch((err) => {
+        setAlert({ message: "Failed to retrieve your books.", type: "danger" });
+      });
   }, []);
   return (
     <div className="container">
@@ -33,30 +40,26 @@ const AllBooks = () => {
               </tr>
             </thead>
             <tbody>
-              {books.length ? (
-                books.map((book) => (
-                  <tr key={book._id}>
-                    <td>
-                      <Link to={`/books/${book._id}`}>{book.title}</Link>
-                    </td>
-                    <td>{book.pages}</td>
-                    <td>{book.author && book.author.fullName}</td>
-                    <td>
-                      <Link
-                        to={`/books/${book._id}/edit`}
-                        className="btn btn-secondary"
-                      >
-                        Edit
-                      </Link>
-                    </td>
-                    <td>
-                      <button className="btn btn-danger">Delete</button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <h1>No books founds.</h1>
-              )}
+              {books.map((book) => (
+                <tr key={book._id}>
+                  <td>
+                    <Link to={`/books/${book._id}`}>{book.title}</Link>
+                  </td>
+                  <td>{book.pages}</td>
+                  <td>{book.author && book.author.fullName}</td>
+                  <td>
+                    <Link
+                      to={`/books/${book._id}/edit`}
+                      className="btn btn-secondary"
+                    >
+                      Edit
+                    </Link>
+                  </td>
+                  <td>
+                    <button className="btn btn-danger">Delete</button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

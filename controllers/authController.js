@@ -77,7 +77,7 @@ router.post("/api/login", (req, res) => {
               // TODO: lock down the token with a time frame
               const token = jwt.sign(
                 {
-                  _id: newUser._id,
+                  _id: foundUser._id,
                   emailAddress: foundUser.emailAddress,
                   firstName: foundUser.firstName,
                   lastName: foundUser.lastName,
