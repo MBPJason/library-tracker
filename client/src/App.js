@@ -13,6 +13,8 @@ import Navbar from "./components/Navbar/Navbar";
 import Alert from "./components/Alert/Alert";
 import SignUp from "./containers/SignUp/SignUp";
 import Login from "./containers/Login/Login";
+import { setAxiosDefaults } from "./utils/axiosDefaults";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 function App() {
   const [alert, setAlert] = useState({
@@ -32,6 +34,21 @@ function App() {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    const localJwt = localStorage.getItem("jwt");
+    if (localJwt) {
+      setJwt(localJwt);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (jwt) {
+      setAxiosDefaults(jwt);
+      localStorage.setItem("jwt", jwt);
+    }
+  }, [jwt]);
+
   return (
     <div>
       <Router>
@@ -40,10 +57,19 @@ function App() {
             <Navbar />
             <Alert />
             <Switch>
-              <Route exact path="/books/new" component={NewBook} />
-              <Route exact path="/books/:bookId/edit" component={EditBook} />
-              <Route exact path="/books/:bookId" component={SingleBook} />
-              <Route exact path="/books" component={AllBooks} />
+              <ProtectedRoute exact path="/books/new" component={NewBook} />
+              {/* <Route exact path="/books/new" component={NewBook} /> */}
+              <ProtectedRoute
+                exact
+                path="/books/:bookId/edit"
+                component={EditBook}
+              />
+              <ProtectedRoute
+                exact
+                path="/books/:bookId"
+                component={SingleBook}
+              />
+              <ProtectedRoute exact path="/books" component={AllBooks} />
               <Route exact path="/signup" component={SignUp} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/" component={Home} />
