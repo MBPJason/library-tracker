@@ -1,18 +1,19 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import axios from "axios";
 import AuthForm from "../../components/AuthForm/AuthForm";
 import { useHistory } from "react-router-dom";
 
 const Login = () => {
-  const { jwt, setJwt } = useContext(AuthContext);
+  const { setJwt } = useContext(AuthContext);
   const history = useHistory();
 
-//   useEffect(() => {
-//     if (jwt) {
-//       history.goBack();
-//     }
-//   }, [jwt]);
+  //TODO: Figure out how to avoid unintended Protected Routes
+  //   useEffect(() => {
+  //     if (jwt) {
+  //       history.goBack();
+  //     }
+  //   }, [jwt]);
 
   const handleSubmit = (e, emailAddress, password) => {
     e.preventDefault();
@@ -31,7 +32,7 @@ const Login = () => {
   return (
     <div className="container">
       <div className="row">
-        <div class="col text-center">
+        <div className="col text-center">
           <h1>Welcome Back!</h1>
           <h3>Sign in below</h3>
         </div>

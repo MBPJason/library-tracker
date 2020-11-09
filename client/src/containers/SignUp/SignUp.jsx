@@ -1,10 +1,12 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import axios from "axios";
 import AuthForm from "../../components/AuthForm/AuthForm";
+import { useHistory } from "react-router-dom";
 
 const SignUp = () => {
   const { setJwt } = useContext(AuthContext);
+  const history = useHistory();
 
   const handleSubmit = (e, emailAddress, password) => {
     e.preventDefault();
@@ -13,6 +15,7 @@ const SignUp = () => {
       .then((response) => {
         console.log(response.data);
         setJwt(response.data.data);
+        history.push("/books");
       })
       .catch((err) => {
         console.log(err);

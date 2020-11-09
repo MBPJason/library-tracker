@@ -17,6 +17,7 @@ const AllBooks = () => {
       .catch((err) => {
         setAlert({ message: "Failed to retrieve your books.", type: "danger" });
       });
+    // eslint-disable-next-line
   }, []);
   return (
     <div className="container">

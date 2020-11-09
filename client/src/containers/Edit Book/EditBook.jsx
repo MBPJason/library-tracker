@@ -25,7 +25,7 @@ const EditBook = () => {
       setPages(response.data.pages);
       setSelectedAuthor(response.data.author._id);
     });
-  }, []);
+  }, [bookId]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

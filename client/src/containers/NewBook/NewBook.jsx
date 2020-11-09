@@ -4,7 +4,6 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import NewBookForm from "./NewBookForm";
 import NewBookModal from "./NewBookModal";
-import Alert from "../../components/Alert/Alert";
 
 const NewBook = () => {
   const [showModal, setShowModal] = useState(false);
