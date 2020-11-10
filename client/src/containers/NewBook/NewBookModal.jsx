@@ -28,9 +28,9 @@ const NewBookModal = ({ showModal, toggleModal, setAuthors }) => {
       .catch((err) => {
         console.log(err);
         setAlert({
-            message: "Failed to create new author",
-            type: "danger",
-          });
+          message: "Failed to create new author",
+          type: "danger",
+        });
       });
   };
   const getAuthorsForDropdown = () => {
@@ -82,6 +82,10 @@ const NewBookModal = ({ showModal, toggleModal, setAuthors }) => {
   );
 };
 
-NewBookModal.propTypes = {};
+NewBookModal.propTypes = {
+  setAuthors: PropTypes.func.isRequired,
+  showModal: PropTypes.bool.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+};
 
 export default NewBookModal;

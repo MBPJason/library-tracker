@@ -4,13 +4,14 @@ import AlertContext from "../../context/AlertContext";
 const Alert = () => {
   const { message, type, setAlert } = useContext(AlertContext);
 
-    useEffect(() => {
-      if (message.length) {
-        setTimeout(() => {
-          setAlert({ message: "", type: "" });
-        }, 2000);
-      }
-    }, [message]);
+  useEffect(() => {
+    if (message.length) {
+      setTimeout(() => {
+        setAlert({ message: "", type: "" });
+      }, 2000);
+    }
+    // eslint-disable-next-line
+  }, [message]);
 
   return (
     <div className="container">

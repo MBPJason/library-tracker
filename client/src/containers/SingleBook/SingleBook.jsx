@@ -16,7 +16,7 @@ const SingleBook = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [bookId]);
   return (
     <div className="container">
       <div className="row">

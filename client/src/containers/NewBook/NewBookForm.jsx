@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import Input from "../../components/Input/Input";
 import axios from "axios";
 
-const NewBookForm = ({handleSubmit, toggleModal, authors, setAuthors}) => {
+const NewBookForm = ({ handleSubmit, toggleModal, authors, setAuthors }) => {
   const [title, setTitle] = useState("");
   const [pages, setPages] = useState("");
   const [selectedAuthor, setSelectedAuthor] = useState("");
 
   useEffect(() => {
     getAuthorsForDropdown();
+    // eslint-disable-next-line
   }, []);
 
   const getAuthorsForDropdown = () => {
@@ -24,7 +25,11 @@ const NewBookForm = ({handleSubmit, toggleModal, authors, setAuthors}) => {
   };
 
   return (
-    <form onSubmit={(e) => {handleSubmit(e, title, pages, selectedAuthor)}}>
+    <form
+      onSubmit={(e) => {
+        handleSubmit(e, title, pages, selectedAuthor);
+      }}
+    >
       <Input
         label="Title"
         id="title"
@@ -72,6 +77,11 @@ const NewBookForm = ({handleSubmit, toggleModal, authors, setAuthors}) => {
   );
 };
 
-NewBookForm.propTypes = {};
+NewBookForm.propTypes = {
+  authors: PropTypes.array.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  setAuthors: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
+};
 
 export default NewBookForm;
